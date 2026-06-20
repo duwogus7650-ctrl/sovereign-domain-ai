@@ -54,8 +54,10 @@ def cmd_index(cfg, args):
 
 def cmd_distill_gen(cfg, args):
     from .distill import generate_sft
-    n = cfg.raw.get("distill", {}).get("n_examples", 200)
-    print(json.dumps(generate_sft.generate(cfg, n_examples=n), ensure_ascii=False, indent=2))
+    n = getattr(args, "n", None) or cfg.raw.get("distill", {}).get("n_examples", 200)
+    teacher = getattr(args, "teacher", None)
+    print(json.dumps(generate_sft.generate(cfg, n_examples=n, teacher_model=teacher),
+                     ensure_ascii=False, indent=2))
 
 
 def cmd_ask(cfg, args):
@@ -128,6 +130,9 @@ def main(argv=None):
         if name == "index":
             sp.add_argument("--budget", type=float, default=None,
                             help="이번 실행 시간예산(초). 초과분은 다음 실행에 이어서 처리")
+        if name == "distill-gen":
+            sp.add_argument("--n", type=int, default=None, help="생성할 (지시,답변) 쌍 수")
+            sp.add_argument("--teacher", default=None, help="교사 모델(Ollama). 미지정시 config 값")
     args = p.parse_args(argv)
     cfg = load(args.config)
     COMMANDS[args.cmd](cfg, args)

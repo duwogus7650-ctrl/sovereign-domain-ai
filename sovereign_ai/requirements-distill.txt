@@ -1,0 +1,17 @@
+# 증류/파인튜닝 트랙 전용 의존성 (GPU 머신에서 설치)
+# core(requirements.txt) 설치 후 추가로:  pip install -r requirements-distill.txt
+#
+# 버전은 trl의 SFTConfig/SFTTrainer API 드리프트를 피하려고 호환 범위를 명시.
+# (train_lora.py는 processing_class/tokenizer 인자명 양쪽을 자동 시도함)
+
+torch>=2.2                # CUDA 빌드 권장: https://pytorch.org 의 설치 명령 사용
+transformers>=4.45,<5
+peft>=0.12
+trl>=0.11,<0.21
+datasets>=2.20
+accelerate>=0.34
+# 선택: 4bit 학습(저VRAM)
+# bitsandbytes>=0.43
+#
+# GGUF 변환은 llama.cpp 저장소 사용 (docs/04 런북 3단계 참고)
+# 학생 추론·배포는 Ollama (별도 설치)

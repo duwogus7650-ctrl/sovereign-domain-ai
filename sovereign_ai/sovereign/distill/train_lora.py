@@ -29,7 +29,10 @@ def main():
     ap.add_argument("--epochs", type=float, default=3.0)
     ap.add_argument("--lr", type=float, default=2e-4)
     ap.add_argument("--batch", type=int, default=2)
+    ap.add_argument("--grad_accum", type=int, default=8)
     ap.add_argument("--max_len", type=int, default=1024)
+    ap.add_argument("--merge", action="store_true",
+                    help="학습 후 LoRA를 base에 병합해 {out}/merged 에 풀 모델 저장(GGUF 변환용)")
     args = ap.parse_args()
 
     import torch
@@ -39,7 +42,9 @@ def main():
     from trl import SFTTrainer, SFTConfig
 
     print(f"[train] base={args.base}  data={args.data}")
-    rows = [format_example(json.loads(l)) for l in open(args.data, encoding="utf-8")]
+    rows = [format_example(json.loads(l)) for l in open(args.data, encoding="utf-8")
+            if l.strip()]
+    print(f"[train] 학습 샘플 {len(rows)}개")
     tmp = Path(args.out); tmp.mkdir(parents=True, exist_ok=True)
     jl = tmp / "_train.jsonl"
     with open(jl, "w", encoding="utf-8") as f:
@@ -50,8 +55,9 @@ def main():
     tok = AutoTokenizer.from_pretrained(args.base)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
+    use_cuda = torch.cuda.is_available()
     model = AutoModelForCausalLM.from_pretrained(
-        args.base, torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32)
+        args.base, torch_dtype=torch.bfloat16 if use_cuda else torch.float32)
 
     peft_cfg = LoraConfig(
         r=16, lora_alpha=32, lora_dropout=0.05, bias="none",
@@ -60,17 +66,37 @@ def main():
     )
     sft_cfg = SFTConfig(
         output_dir=args.out, num_train_epochs=args.epochs,
-        per_device_train_batch_size=args.batch, learning_rate=args.lr,
+        per_device_train_batch_size=args.batch,
+        gradient_accumulation_steps=args.grad_accum,
+        learning_rate=args.lr, warmup_ratio=0.03, lr_scheduler_type="cosine",
         max_seq_length=args.max_len, logging_steps=10, save_strategy="epoch",
-        bf16=torch.cuda.is_available(), dataset_text_field="text",
+        bf16=use_cuda, dataset_text_field="text",
     )
-    trainer = SFTTrainer(model=model, args=sft_cfg, train_dataset=ds,
-                         peft_config=peft_cfg, tokenizer=tok)
+    # trl 버전에 따라 tokenizer/processing_class 인자명이 다름 → 양쪽 시도
+    try:
+        trainer = SFTTrainer(model=model, args=sft_cfg, train_dataset=ds,
+                             peft_config=peft_cfg, processing_class=tok)
+    except TypeError:
+        trainer = SFTTrainer(model=model, args=sft_cfg, train_dataset=ds,
+                             peft_config=peft_cfg, tokenizer=tok)
     trainer.train()
     trainer.save_model(args.out)
     tok.save_pretrained(args.out)
-    print(f"[train] 완료 → {args.out}")
-    print("다음: LoRA 병합 → GGUF 변환(llama.cpp) → `ollama create`로 등록 → RAG가 그 모델을 호출")
+    print(f"[train] LoRA 어댑터 저장 → {args.out}")
+
+    if args.merge:
+        from peft import PeftModel
+        print("[train] LoRA를 base에 병합 중...")
+        base = AutoModelForCausalLM.from_pretrained(
+            args.base, torch_dtype=torch.bfloat16 if use_cuda else torch.float32)
+        merged = PeftModel.from_pretrained(base, args.out).merge_and_unload()
+        merged_dir = str(Path(args.out) / "merged")
+        merged.save_pretrained(merged_dir)
+        tok.save_pretrained(merged_dir)
+        print(f"[train] 병합 풀 모델 저장 → {merged_dir}")
+
+    print("다음: (병합 모델을) GGUF 변환(llama.cpp) → `ollama create`로 등록 "
+          "→ config.yaml llm.model 을 그 모델로. 상세는 docs/04_증류_실행_런북.md")
 
 
 if __name__ == "__main__":
