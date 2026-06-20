@@ -14,9 +14,11 @@ __pycache__/
 *.bin
 *.safetensors
 
-# OMC 런타임 상태 (oh-my-claudecode)
+# OMC / bkit 런타임 상태 (플러그인)
 .omc/
 sovereign_ai/.omc/
+.bkit/
+sovereign_ai/.bkit/
 
 # OS
 Thumbs.db
