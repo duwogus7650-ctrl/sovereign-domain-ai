@@ -37,29 +37,48 @@ domains:
     arxiv_queries:
       - permanent magnet synchronous motor design
       - interior permanent magnet machine design
-      - electric machine finite element analysis
-      - axial flux permanent magnet machine
+      - surface permanent magnet motor design
       - synchronous reluctance motor design
+      - permanent magnet assisted synchronous reluctance machine
       - switched reluctance machine design
+      - axial flux permanent magnet machine
+      - coreless axial flux motor
+      - halbach array permanent magnet motor
+      - flux barrier rotor design
       - cogging torque reduction technique
       - torque ripple minimization motor
+      - electric machine finite element analysis
+      - magnetic equivalent circuit machine model
       - demagnetization analysis permanent magnet
-      - thermal analysis electric machine
+      - permanent magnet eddy current loss
+      - hairpin winding AC loss
       - winding design electric machine
+      - thermal analysis electric machine
+      - rotor mechanical stress high speed machine
+      - traction motor design electric vehicle
+      - noise vibration harshness electric motor
   control:
     label: 제어
     arxiv_categories: [eess.SY, math.OC]
     arxiv_queries:
       - field oriented control PMSM
+      - direct torque control induction motor
       - model predictive control electric drive
       - finite control set model predictive control
-      - sensorless control permanent magnet motor
-      - sliding mode control motor drive
-      - direct torque control induction motor
+      - continuous control set model predictive control
       - deadbeat predictive current control
-      - speed observer electric drive
+      - sensorless control permanent magnet motor
+      - high frequency injection sensorless control
+      - sliding mode control motor drive
+      - super twisting sliding mode drive
+      - disturbance observer motor control
       - extended kalman filter motor estimation
+      - speed observer electric drive
       - adaptive control motor drive
+      - model free predictive control
+      - flux weakening control PMSM
+      - current harmonic suppression PMSM
+      - robust control electric drive
   control_board:
     label: 제어보드 설계
     arxiv_categories: [eess.SY]
@@ -70,23 +89,38 @@ domains:
       - three phase voltage source inverter
       - dead time compensation inverter
       - current sensing power electronics
+      - rogowski coil current sensor
       - space vector pulse width modulation
       - power module thermal management
       - dc link capacitor inverter design
+      - short circuit protection power module
+      - common mode noise inverter
+      - electromagnetic interference power converter
+      - multilevel inverter topology
+      - active gate driver silicon carbide
+      - busbar design power module
   fault_diagnosis:
     label: AI 고장진단
     arxiv_categories: [eess.SP, cs.LG, eess.SY]
     arxiv_queries:
       - bearing fault diagnosis deep learning
-      - remaining useful life prediction deep learning
-      - motor current signature analysis fault
-      - fault diagnosis transfer learning
-      - prognostics health management deep learning
-      - convolutional neural network fault diagnosis
       - gearbox fault diagnosis vibration
+      - stator inter-turn fault detection
+      - broken rotor bar diagnosis
+      - motor current signature analysis fault
+      - remaining useful life prediction deep learning
+      - prognostics health management deep learning
+      - fault diagnosis transfer learning
       - domain adaptation fault diagnosis
-      - anomaly detection rotating machinery
+      - convolutional neural network fault diagnosis
+      - self-supervised fault diagnosis
+      - few-shot fault diagnosis
       - physics informed neural network diagnosis
+      - anomaly detection rotating machinery
+      - digital twin prognostics
+      - noisy label fault diagnosis
+      - graph neural network fault diagnosis
+      - vibration signal deep learning bearing
   reinforcement_learning:
     label: 강화학습
     arxiv_categories: [cs.LG, cs.AI, eess.SY, cs.RO]
@@ -97,14 +131,19 @@ domains:
       - model-based reinforcement learning control
       - safe reinforcement learning constraint
       - proximal policy optimization control
+      - soft actor critic control
       - reinforcement learning PID tuning
       - reinforcement learning energy management
       - offline reinforcement learning control
+      - meta reinforcement learning control
+      - reinforcement learning converter control
+      - reinforcement learning drive optimization
+      - multi-agent reinforcement learning power system
 
 # arXiv 수집 한도(분야별). 처음엔 작게, 검증 후 늘릴 것.
 acquire:
   arxiv_max_per_query: 40        # 쿼리당 최대 논문 수
-  arxiv_download_pdf: true       # false면 메타데이터만
+  arxiv_download_pdf: false      # 심화 라운드: 넓이(메타+초록) 중심. 풀텍스트는 기존 726편 유지
   openalex_per_query: 100        # OpenAlex 메타데이터 수집량
   openalex_mailto: ""        # (선택) OpenAlex 폴라이트 풀용 본인 이메일. 비워도 동작.
   request_delay_sec: 3.0         # API 예의 대기
