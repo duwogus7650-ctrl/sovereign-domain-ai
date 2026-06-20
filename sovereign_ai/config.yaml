@@ -24,9 +24,12 @@ llm:
   model: qwen3:8b            # 오프라인 답변 생성 모델 (설치: ollama pull qwen3:8b)
   temperature: 0.2
   num_ctx: 8192
+  timeout: 600               # LLM 호출 타임아웃(초). CPU 8b는 느려 여유 필요(GPU면 수초)
+  keep_alive: 30m            # 모델을 메모리에 유지 → 요청 사이 콜드로드(수십초) 방지
 
 retrieval:
-  top_k: 6                   # 답변에 넣을 근거 청크 수
+  top_k: 6                   # 근거 청크 수. CPU 8b는 컨텍스트가 클수록 생성이 급격히 느려짐
+                             # → CPU는 5~6 권장. GPU 머신이면 8~10으로 올려 그라운딩 강화.
   min_score: 0.0             # 코사인 유사도 하한(0이면 비활성)
 
 # ── 도메인 정의: docs/01_도메인맵_논문데이터.md 의 기계판 ──

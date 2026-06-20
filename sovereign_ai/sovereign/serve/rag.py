@@ -118,14 +118,17 @@ class RagEngine:
                 {"role": "user", "content": user_msg},
             ],
             "stream": False,
-            # qwed3 등 사고형 모델: CPU에서 <think> 생성이 매우 느려 기본 비활성.
+            # qwen3 등 사고형 모델: CPU에서 <think> 생성이 매우 느려 기본 비활성.
             # 사고 추론이 필요하면 config llm.think: true
             "think": llm.get("think", False),
+            # 모델을 메모리에 유지 → 요청 사이 콜드로드(수십초) 방지. CPU 사용성에 중요.
+            "keep_alive": llm.get("keep_alive", "30m"),
             "options": {"temperature": llm.get("temperature", 0.2),
                         "num_ctx": llm.get("num_ctx", 8192)},
         }
         try:
-            r = requests.post(f"{llm['base_url']}/api/chat", json=payload, timeout=300)
+            r = requests.post(f"{llm['base_url']}/api/chat", json=payload,
+                              timeout=llm.get("timeout", 600))
             r.raise_for_status()
             answer = r.json()["message"]["content"]
         except Exception as e:
