@@ -1,0 +1,25 @@
+<svg width="680" viewBox="0 0 680 395" role="img">
+<style>
+text{font-family:-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+.t{font-size:14px;fill:#3d3d3a}.ts{font-size:12px;fill:#73726c}.th{font-size:14px;font-weight:500;fill:#2c2c2a}
+.arr{stroke:#73726c;stroke-width:1.5px;fill:none}
+.c-gray>rect,rect.c-gray{fill:#F1EFE8;stroke:#5F5E5A}.c-gray .th,.c-gray .t{fill:#2C2C2A}.c-gray .ts{fill:#444441}
+.c-blue>rect,rect.c-blue{fill:#E6F1FB;stroke:#185FA5}.c-blue .th,.c-blue .t{fill:#0C447C}.c-blue .ts{fill:#185FA5}
+.c-teal>rect,rect.c-teal{fill:#E1F5EE;stroke:#0F6E56}.c-teal .th,.c-teal .t{fill:#085041}.c-teal .ts{fill:#0F6E56}
+.c-purple>rect,rect.c-purple{fill:#EEEDFE;stroke:#534AB7}.c-purple .th,.c-purple .t{fill:#3C3489}.c-purple .ts{fill:#534AB7}
+.c-red>rect,rect.c-red{fill:#FCEBEB;stroke:#A32D2D}.c-red .th,.c-red .t{fill:#791F1F}.c-red .ts{fill:#A32D2D}
+.c-amber>rect,rect.c-amber{fill:#FAEEDA;stroke:#854F0B}.c-amber .th,.c-amber .t{fill:#633806}.c-amber .ts{fill:#854F0B}
+</style>
+
+<title>도메인 특화 소버린 모델 빌드 파이프라인</title>
+<desc>베이스 모델 선택, 도메인 데이터셋 구축(핵심), LoRA 파인튜닝, GGUF 양자화 후 오프라인 배포의 4단계와, 평가로 데이터를 보강해 재학습하는 반복 루프.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="node c-gray"><rect x="160" y="40" width="360" height="56" rx="8" stroke-width="0.5"/><text class="th" x="340" y="62" text-anchor="middle" dominant-baseline="central">베이스 모델 선택</text><text class="ts" x="340" y="82" text-anchor="middle" dominant-baseline="central">Qwen3 계열 · Apache 2.0 · 한국어</text></g>
+<line x1="340" y1="98" x2="340" y2="120" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-teal"><rect x="160" y="122" width="360" height="56" rx="8" stroke-width="0.5"/><text class="th" x="340" y="144" text-anchor="middle" dominant-baseline="central">도메인 데이터셋 구축 ★</text><text class="ts" x="340" y="164" text-anchor="middle" dominant-baseline="central">내 문서·리포트 → 지시문 Q&amp;A 500+</text></g>
+<line x1="340" y1="180" x2="340" y2="202" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-gray"><rect x="160" y="204" width="360" height="56" rx="8" stroke-width="0.5"/><text class="th" x="340" y="226" text-anchor="middle" dominant-baseline="central">LoRA 파인튜닝</text><text class="ts" x="340" y="246" text-anchor="middle" dominant-baseline="central">bf16 · r=16 · 단일 GPU 수 시간</text></g>
+<line x1="340" y1="262" x2="340" y2="284" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-gray"><rect x="160" y="286" width="360" height="56" rx="8" stroke-width="0.5"/><text class="th" x="340" y="308" text-anchor="middle" dominant-baseline="central">GGUF 양자화 → 오프라인 배포</text><text class="ts" x="340" y="328" text-anchor="middle" dominant-baseline="central">Q4_K_M · Ollama (기존 에이전트)</text></g>
+<text class="th" x="340" y="372" text-anchor="middle" dominant-baseline="central">↻ 도메인 평가셋으로 검증 → 데이터 보강 → 재학습</text>
+</svg>

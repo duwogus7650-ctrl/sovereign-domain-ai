@@ -1,0 +1,20 @@
+# 대용량·재생성 가능 데이터 (수집 PDF, FAISS 인덱스, 초록 메타, SFT 데이터)
+sovereign_ai/data/
+
+# 생성 답변 로그
+sovereign_ai/data/answers*.txt
+
+# 파이썬 캐시
+__pycache__/
+*.pyc
+*.pyo
+
+# 임베딩 모델 캐시 (혹시 폴더 내로 받는 경우)
+**/.cache/
+*.bin
+*.safetensors
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,19 @@
+# 소버린 도메인 AI — 의존성
+# 핵심(수집·인덱싱·서빙)
+requests>=2.31
+feedparser>=6.0          # arXiv Atom 파싱
+pypdf>=4.0               # PDF 텍스트 추출
+PyYAML>=6.0
+numpy>=1.24
+faiss-cpu>=1.7           # 로컬 벡터 인덱스 (GPU면 faiss-gpu)
+sentence-transformers>=2.7  # bge-m3 로컬 임베딩 (torch 자동 동반)
+
+# 증류/파인튜닝 트랙 (선택 — GPU 권장)
+# transformers>=4.40
+# peft>=0.10             # LoRA
+# datasets>=2.18
+# accelerate>=0.29
+# trl>=0.8               # SFT 트레이너
+
+# 로컬 LLM 추론은 Ollama(별도 설치): https://ollama.com
+#   ollama pull qwen3:8b

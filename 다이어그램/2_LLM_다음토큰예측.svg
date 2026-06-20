@@ -1,0 +1,39 @@
+<svg width="680" viewBox="0 0 680 360" role="img">
+<style>
+text{font-family:-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+.t{font-size:14px;fill:#3d3d3a}.ts{font-size:12px;fill:#73726c}.th{font-size:14px;font-weight:500;fill:#2c2c2a}
+.arr{stroke:#73726c;stroke-width:1.5px;fill:none}
+.c-gray>rect,rect.c-gray{fill:#F1EFE8;stroke:#5F5E5A}.c-gray .th,.c-gray .t{fill:#2C2C2A}.c-gray .ts{fill:#444441}
+.c-blue>rect,rect.c-blue{fill:#E6F1FB;stroke:#185FA5}.c-blue .th,.c-blue .t{fill:#0C447C}.c-blue .ts{fill:#185FA5}
+.c-teal>rect,rect.c-teal{fill:#E1F5EE;stroke:#0F6E56}.c-teal .th,.c-teal .t{fill:#085041}.c-teal .ts{fill:#0F6E56}
+.c-purple>rect,rect.c-purple{fill:#EEEDFE;stroke:#534AB7}.c-purple .th,.c-purple .t{fill:#3C3489}.c-purple .ts{fill:#534AB7}
+.c-red>rect,rect.c-red{fill:#FCEBEB;stroke:#A32D2D}.c-red .th,.c-red .t{fill:#791F1F}.c-red .ts{fill:#A32D2D}
+.c-amber>rect,rect.c-amber{fill:#FAEEDA;stroke:#854F0B}.c-amber .th,.c-amber .t{fill:#633806}.c-amber .ts{fill:#854F0B}
+</style>
+
+<title>LLM의 다음 토큰 예측</title>
+<desc>입력 토큰 시퀀스가 모델에 들어가면 모델은 다음에 올 토큰에 대한 확률 분포를 출력한다. 막대 길이는 각 후보 토큰의 확률을 나타낸다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="206" y="40" width="80" height="36" rx="8" class="c-gray" stroke-width="0.5"/>
+<text class="t" x="246" y="58" text-anchor="middle" dominant-baseline="central">로봇은</text>
+<rect x="294" y="40" width="80" height="36" rx="8" class="c-gray" stroke-width="0.5"/>
+<text class="t" x="334" y="58" text-anchor="middle" dominant-baseline="central">모터를</text>
+<rect x="382" y="40" width="56" height="36" rx="8" class="c-gray" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text class="t" x="410" y="58" text-anchor="middle" dominant-baseline="central">?</text>
+<line x1="343" y1="80" x2="343" y2="116" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-purple"><rect x="195" y="120" width="300" height="52" rx="8" stroke-width="0.5"/><text class="th" x="345" y="138" text-anchor="middle" dominant-baseline="central">LLM</text><text class="ts" x="345" y="158" text-anchor="middle" dominant-baseline="central">다음 토큰 확률 분포 예측</text></g>
+<line x1="345" y1="172" x2="345" y2="194" class="arr" marker-end="url(#arrow)"/>
+<text class="ts" x="250" y="210" text-anchor="end" dominant-baseline="central">돌린다</text>
+<rect x="260" y="200" width="114" height="20" rx="4" class="c-teal" stroke-width="0.5"/>
+<text class="ts" x="382" y="210" text-anchor="start" dominant-baseline="central">0.38</text>
+<text class="ts" x="250" y="242" text-anchor="end" dominant-baseline="central">사용한다</text>
+<rect x="260" y="232" width="75" height="20" rx="4" class="c-teal" stroke-width="0.5"/>
+<text class="ts" x="343" y="242" text-anchor="start" dominant-baseline="central">0.25</text>
+<text class="ts" x="250" y="274" text-anchor="end" dominant-baseline="central">제어한다</text>
+<rect x="260" y="264" width="54" height="20" rx="4" class="c-teal" stroke-width="0.5"/>
+<text class="ts" x="322" y="274" text-anchor="start" dominant-baseline="central">0.18</text>
+<text class="ts" x="250" y="306" text-anchor="end" dominant-baseline="central">장착한다</text>
+<rect x="260" y="296" width="27" height="20" rx="4" class="c-teal" stroke-width="0.5"/>
+<text class="ts" x="295" y="306" text-anchor="start" dominant-baseline="central">0.09</text>
+<text class="ts" x="260" y="332" text-anchor="start" dominant-baseline="central">⋯ 어휘 전체에 대해 수만 개 토큰</text>
+</svg>

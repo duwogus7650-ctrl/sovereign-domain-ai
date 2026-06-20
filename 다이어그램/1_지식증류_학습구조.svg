@@ -1,0 +1,33 @@
+<svg width="680" viewBox="0 0 680 388" role="img">
+<style>
+text{font-family:-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+.t{font-size:14px;fill:#3d3d3a}.ts{font-size:12px;fill:#73726c}.th{font-size:14px;font-weight:500;fill:#2c2c2a}
+.arr{stroke:#73726c;stroke-width:1.5px;fill:none}
+.c-gray>rect,rect.c-gray{fill:#F1EFE8;stroke:#5F5E5A}.c-gray .th,.c-gray .t{fill:#2C2C2A}.c-gray .ts{fill:#444441}
+.c-blue>rect,rect.c-blue{fill:#E6F1FB;stroke:#185FA5}.c-blue .th,.c-blue .t{fill:#0C447C}.c-blue .ts{fill:#185FA5}
+.c-teal>rect,rect.c-teal{fill:#E1F5EE;stroke:#0F6E56}.c-teal .th,.c-teal .t{fill:#085041}.c-teal .ts{fill:#0F6E56}
+.c-purple>rect,rect.c-purple{fill:#EEEDFE;stroke:#534AB7}.c-purple .th,.c-purple .t{fill:#3C3489}.c-purple .ts{fill:#534AB7}
+.c-red>rect,rect.c-red{fill:#FCEBEB;stroke:#A32D2D}.c-red .th,.c-red .t{fill:#791F1F}.c-red .ts{fill:#A32D2D}
+.c-amber>rect,rect.c-amber{fill:#FAEEDA;stroke:#854F0B}.c-amber .th,.c-amber .t{fill:#633806}.c-amber .ts{fill:#854F0B}
+</style>
+
+<title>지식 증류 학습 구조</title>
+<desc>같은 입력이 고정된 Teacher와 학습 대상 Student에 동시에 들어가고, Teacher의 부드러운 출력 분포와 정답 라벨을 함께 맞추는 손실로 Student만 갱신된다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="node c-gray"><rect x="290" y="40" width="100" height="44" rx="8" stroke-width="0.5"/><text class="th" x="340" y="62" text-anchor="middle" dominant-baseline="central">입력 x</text></g>
+<line x1="336" y1="86" x2="190" y2="134" class="arr" marker-end="url(#arrow)"/>
+<line x1="344" y1="86" x2="494" y2="134" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-blue"><rect x="65" y="140" width="215" height="56" rx="8" stroke-width="0.5"/><text class="th" x="172" y="162" text-anchor="middle" dominant-baseline="central">Teacher</text><text class="ts" x="172" y="180" text-anchor="middle" dominant-baseline="central">큰 모델 · 고정(frozen)</text></g>
+<g class="node c-teal"><rect x="400" y="140" width="215" height="56" rx="8" stroke-width="0.5"/><text class="th" x="507" y="162" text-anchor="middle" dominant-baseline="central">Student</text><text class="ts" x="507" y="180" text-anchor="middle" dominant-baseline="central">작은 모델 · 학습 대상</text></g>
+<line x1="172" y1="198" x2="320" y2="265" class="arr" marker-end="url(#arrow)"/>
+<line x1="505" y1="198" x2="492" y2="265" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-gray"><rect x="65" y="270" width="170" height="44" rx="8" stroke-width="0.5"/><text class="th" x="150" y="292" text-anchor="middle" dominant-baseline="central">정답 라벨 y</text></g>
+<g class="node c-gray"><rect x="275" y="270" width="270" height="64" rx="8" stroke-width="0.5"/><text class="th" x="410" y="294" text-anchor="middle" dominant-baseline="central">손실 L</text><text class="ts" x="410" y="314" text-anchor="middle" dominant-baseline="central">증류항 + 정답항</text></g>
+<line x1="235" y1="292" x2="271" y2="292" class="arr" marker-end="url(#arrow)"/>
+<line x1="522" y1="272" x2="556" y2="201" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="5 4" stroke-linecap="round" marker-end="url(#arrow)"/>
+<text class="ts" x="560" y="250" text-anchor="start">gradient</text>
+<rect x="275" y="352" width="14" height="14" rx="3" class="c-blue" stroke-width="0.5"/>
+<text class="ts" x="296" y="359" text-anchor="start" dominant-baseline="central">Teacher (고정)</text>
+<rect x="420" y="352" width="14" height="14" rx="3" class="c-teal" stroke-width="0.5"/>
+<text class="ts" x="441" y="359" text-anchor="start" dominant-baseline="central">Student (학습)</text>
+</svg>

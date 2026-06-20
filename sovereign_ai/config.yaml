@@ -1,0 +1,127 @@
+# 소버린 도메인 AI — 중앙 설정
+# 이 파일이 "무엇을 수집하고 어떻게 색인/서빙할지"의 단일 진실 공급원이다.
+
+paths:
+  data_root: data            # 모든 산출물 루트 (수집·인덱스·메타)
+  pdf_dir: data/pdf          # arXiv 등에서 받은 PDF
+  user_pdf_dir: data/my_papers   # 사용자가 직접 넣는 합법 보유 PDF
+  text_dir: data/text        # PDF→텍스트 추출 결과
+  meta_dir: data/meta        # 서지 메타데이터(JSONL)
+  index_dir: data/index      # FAISS 인덱스 + 청크 매니페스트
+
+embedding:
+  # CPU 기본값: MiniLM-L12 다국어(한/영, 384차원). CPU 16코어에서 ~16청크/초(전체 ~48분).
+  # GPU가 있으면 BAAI/bge-m3(1024차원, 더 정확)로 교체 후 재인덱싱 권장.
+  model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+  device: auto               # auto | cpu | cuda
+  batch_size: 64
+  max_chars_per_chunk: 1500  # 청크 크기(문자)
+  chunk_overlap: 200
+
+llm:
+  backend: ollama            # ollama 로컬 서버
+  base_url: http://localhost:11434
+  model: qwen3:8b            # 오프라인 답변 생성 모델 (설치: ollama pull qwen3:8b)
+  temperature: 0.2
+  num_ctx: 8192
+
+retrieval:
+  top_k: 6                   # 답변에 넣을 근거 청크 수
+  min_score: 0.0             # 코사인 유사도 하한(0이면 비활성)
+
+# ── 도메인 정의: docs/01_도메인맵_논문데이터.md 의 기계판 ──
+domains:
+  motor_design:
+    label: 모터 설계
+    arxiv_categories: [eess.SY, physics.app-ph, cs.CE]
+    arxiv_queries:
+      - permanent magnet synchronous motor design
+      - interior permanent magnet machine design
+      - electric machine finite element analysis
+      - axial flux permanent magnet machine
+      - synchronous reluctance motor design
+      - switched reluctance machine design
+      - cogging torque reduction technique
+      - torque ripple minimization motor
+      - demagnetization analysis permanent magnet
+      - thermal analysis electric machine
+      - winding design electric machine
+  control:
+    label: 제어
+    arxiv_categories: [eess.SY, math.OC]
+    arxiv_queries:
+      - field oriented control PMSM
+      - model predictive control electric drive
+      - finite control set model predictive control
+      - sensorless control permanent magnet motor
+      - sliding mode control motor drive
+      - direct torque control induction motor
+      - deadbeat predictive current control
+      - speed observer electric drive
+      - extended kalman filter motor estimation
+      - adaptive control motor drive
+  control_board:
+    label: 제어보드 설계
+    arxiv_categories: [eess.SY]
+    arxiv_queries:
+      - inverter gate driver design
+      - silicon carbide power converter
+      - gallium nitride inverter design
+      - three phase voltage source inverter
+      - dead time compensation inverter
+      - current sensing power electronics
+      - space vector pulse width modulation
+      - power module thermal management
+      - dc link capacitor inverter design
+  fault_diagnosis:
+    label: AI 고장진단
+    arxiv_categories: [eess.SP, cs.LG, eess.SY]
+    arxiv_queries:
+      - bearing fault diagnosis deep learning
+      - remaining useful life prediction deep learning
+      - motor current signature analysis fault
+      - fault diagnosis transfer learning
+      - prognostics health management deep learning
+      - convolutional neural network fault diagnosis
+      - gearbox fault diagnosis vibration
+      - domain adaptation fault diagnosis
+      - anomaly detection rotating machinery
+      - physics informed neural network diagnosis
+  reinforcement_learning:
+    label: 강화학습
+    arxiv_categories: [cs.LG, cs.AI, eess.SY, cs.RO]
+    arxiv_queries:
+      - reinforcement learning motor control
+      - deep reinforcement learning power electronics
+      - sim-to-real reinforcement learning robot
+      - model-based reinforcement learning control
+      - safe reinforcement learning constraint
+      - proximal policy optimization control
+      - reinforcement learning PID tuning
+      - reinforcement learning energy management
+      - offline reinforcement learning control
+
+# arXiv 수집 한도(분야별). 처음엔 작게, 검증 후 늘릴 것.
+acquire:
+  arxiv_max_per_query: 40        # 쿼리당 최대 논문 수
+  arxiv_download_pdf: true       # false면 메타데이터만
+  openalex_per_query: 100        # OpenAlex 메타데이터 수집량
+  openalex_mailto: ""        # (선택) OpenAlex 폴라이트 풀용 본인 이메일. 비워도 동작.
+  request_delay_sec: 3.0         # API 예의 대기
+
+# 증류(시퀀스레벨) — 오픈웨이트 교사로 도메인 SFT 데이터 생성. docs/03 참고.
+# 폐쇄형 프런티어(Claude/GPT/Gemini)는 약관상 사용 금지.
+distill:
+  teacher_model: qwen3:14b   # 오픈웨이트 교사 (Ollama, 학생보다 큰 모델)
+  n_examples: 200            # 생성할 (지시,답변) 쌍 수
+
+# 공개 데이터셋 레지스트리 (다운로드 안내 — 각 라이선스 준수)
+datasets:
+  - {name: CWRU Bearing, domain: fault_diagnosis, url: "https://engineering.case.edu/bearingdatacenter"}
+  - {name: Paderborn KAt, domain: fault_diagnosis, url: "https://mb.uni-paderborn.de/kat/datacenter"}
+  - {name: NASA C-MAPSS, domain: fault_diagnosis, url: "https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"}
+  - {name: XJTU-SY Bearing, domain: fault_diagnosis, url: "https://biaowang.tech/xjtu-sy-bearing-datasets/"}
+  - {name: MFPT Bearing, domain: fault_diagnosis, url: "https://www.mfpt.org/fault-data-sets/"}
+  - {name: gym-electric-motor, domain: reinforcement_learning, url: "https://github.com/upb-lea/gym-electric-motor"}
+  - {name: pyleecan, domain: motor_design, url: "https://www.pyleecan.org"}
+  - {name: OpenInverter, domain: control_board, url: "https://openinverter.org"}

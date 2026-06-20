@@ -1,0 +1,22 @@
+<svg width="680" viewBox="0 0 680 300" role="img">
+<style>
+text{font-family:-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+.t{font-size:14px;fill:#3d3d3a}.ts{font-size:12px;fill:#73726c}.th{font-size:14px;font-weight:500;fill:#2c2c2a}
+.arr{stroke:#73726c;stroke-width:1.5px;fill:none}
+.c-gray>rect,rect.c-gray{fill:#F1EFE8;stroke:#5F5E5A}.c-gray .th,.c-gray .t{fill:#2C2C2A}.c-gray .ts{fill:#444441}
+.c-blue>rect,rect.c-blue{fill:#E6F1FB;stroke:#185FA5}.c-blue .th,.c-blue .t{fill:#0C447C}.c-blue .ts{fill:#185FA5}
+.c-teal>rect,rect.c-teal{fill:#E1F5EE;stroke:#0F6E56}.c-teal .th,.c-teal .t{fill:#085041}.c-teal .ts{fill:#0F6E56}
+.c-purple>rect,rect.c-purple{fill:#EEEDFE;stroke:#534AB7}.c-purple .th,.c-purple .t{fill:#3C3489}.c-purple .ts{fill:#534AB7}
+.c-red>rect,rect.c-red{fill:#FCEBEB;stroke:#A32D2D}.c-red .th,.c-red .t{fill:#791F1F}.c-red .ts{fill:#A32D2D}
+.c-amber>rect,rect.c-amber{fill:#FAEEDA;stroke:#854F0B}.c-amber .th,.c-amber .t{fill:#633806}.c-amber .ts{fill:#854F0B}
+</style>
+
+<title>from-scratch 소형 모델 단계별 빌드 계획</title>
+<desc>Stage 0에서 미니 모델로 파이프라인을 익히고, Stage 1에서 0.5–1B를 from-scratch로 본 학습한 뒤, Stage 2에서 SFT·배포로 사용 가능하게 만든다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="node c-gray"><rect x="110" y="40" width="460" height="60" rx="8" stroke-width="0.5"/><text class="th" x="340" y="63" text-anchor="middle" dominant-baseline="central">Stage 0 — 미니 모델로 파이프라인 학습</text><text class="ts" x="340" y="84" text-anchor="middle" dominant-baseline="central">nanoGPT(카파시) · ~100–300M · 단일 GPU</text></g>
+<line x1="340" y1="102" x2="340" y2="120" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-teal"><rect x="110" y="124" width="460" height="60" rx="8" stroke-width="0.5"/><text class="th" x="340" y="147" text-anchor="middle" dominant-baseline="central">Stage 1 — from-scratch 본 학습</text><text class="ts" x="340" y="168" text-anchor="middle" dominant-baseline="central">SmolLM3 레시피·nanotron · 0.5–1B · 8×H100</text></g>
+<line x1="340" y1="186" x2="340" y2="204" class="arr" marker-end="url(#arrow)"/>
+<g class="node c-gray"><rect x="110" y="208" width="460" height="60" rx="8" stroke-width="0.5"/><text class="th" x="340" y="231" text-anchor="middle" dominant-baseline="central">Stage 2 — 사용 가능화 · 오프라인 배포</text><text class="ts" x="340" y="252" text-anchor="middle" dominant-baseline="central">SFT(도메인+지시) → GGUF · Ollama</text></g>
+</svg>
