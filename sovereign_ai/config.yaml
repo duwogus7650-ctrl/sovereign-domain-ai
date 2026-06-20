@@ -112,7 +112,7 @@ acquire:
 # 증류(시퀀스레벨) — 오픈웨이트 교사로 도메인 SFT 데이터 생성. docs/03 참고.
 # 폐쇄형 프런티어(Claude/GPT/Gemini)는 약관상 사용 금지.
 distill:
-  teacher_model: qwen3:14b   # 오픈웨이트 교사 (Ollama, 학생보다 큰 모델)
+  teacher_model: qwen3:8b    # 오픈웨이트 교사 (Ollama). 더 큰 모델(14b/32b)이 있으면 교체 권장.
   n_examples: 200            # 생성할 (지시,답변) 쌍 수
 
 # 공개 데이터셋 레지스트리 (다운로드 안내 — 각 라이선스 준수)

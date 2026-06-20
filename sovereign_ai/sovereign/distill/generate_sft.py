@@ -29,6 +29,7 @@ def _ollama_chat(base_url: str, model: str, system: str, user: str,
                      {"role": "user", "content": user}],
         "stream": False,
         "format": "json",
+        "think": False,   # CPU에서 사고 생성이 느려 비활성(타임아웃 방지)
         "options": {"temperature": temperature, "num_ctx": num_ctx},
     }
     r = requests.post(f"{base_url}/api/chat", json=payload, timeout=300)
