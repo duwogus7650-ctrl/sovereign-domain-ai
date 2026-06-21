@@ -1,5 +1,5 @@
 @echo off
-REM Sovereign Domain AI - single question launcher.  Usage: ask.bat "your question"
+REM YJH AI - single question launcher.  Usage: ask.bat "your question"
 pushd "%~dp0sovereign_ai"
 chcp 65001 >nul
 set PYTHONUTF8=1

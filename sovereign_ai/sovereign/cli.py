@@ -1,4 +1,4 @@
-"""소버린 도메인 AI — 통합 CLI.
+"""YJH AI — 통합 CLI.
 
 사용 (sovereign_ai/ 에서):
   python -m sovereign.cli acquire-arxiv     # arXiv 풀텍스트+메타 수집 (온라인)
@@ -128,7 +128,7 @@ def main(argv=None):
             stream.reconfigure(encoding="utf-8")
         except Exception:
             pass
-    p = argparse.ArgumentParser(prog="sovereign", description="소버린 도메인 AI (오프라인 RAG)")
+    p = argparse.ArgumentParser(prog="sovereign", description="YJH AI (오프라인 RAG)")
     p.add_argument("--config", default=None, help="config.yaml 경로")
     sub = p.add_subparsers(dest="cmd", required=True)
     for name in COMMANDS:
