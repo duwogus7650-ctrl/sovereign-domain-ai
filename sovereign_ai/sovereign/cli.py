@@ -7,6 +7,7 @@
   python -m sovereign.cli index             # 코퍼스 인덱싱 (오프라인 가능)
   python -m sovereign.cli ask "질문..."     # 1회 질의 (완전 오프라인)
   python -m sovereign.cli chat              # 대화형 (완전 오프라인)
+  python -m sovereign.cli gui               # 데스크톱 창 GUI (완전 오프라인)
   python -m sovereign.cli status            # 현재 코퍼스/인덱스 상태
 """
 from __future__ import annotations
@@ -85,6 +86,12 @@ def cmd_chat(cfg, args):
         print()
 
 
+def cmd_gui(cfg, args):
+    # PyQt6는 GUI 실행 시에만 필요 → 지연 임포트 (다른 명령은 의존성 불필요)
+    from .serve.gui import run
+    run(cfg)
+
+
 def cmd_status(cfg, args):
     cfg.ensure_dirs()
     def count_lines(p):
@@ -109,6 +116,7 @@ COMMANDS = {
     "distill-gen": cmd_distill_gen,
     "ask": cmd_ask,
     "chat": cmd_chat,
+    "gui": cmd_gui,
     "status": cmd_status,
 }
 
